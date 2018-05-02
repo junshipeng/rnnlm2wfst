@@ -16,16 +16,16 @@ using namespace std;
 
 #define mylog(x) -log(x)
 
-ClusterDiscretizer::ClusterDiscretizer(int dims, int cl
-// , int nw
- ) {
+ClusterDiscretizer::ClusterDiscretizer(int dims, int cl/* , int nw*/) 
+{
 	means = new real*[cl];
 	prior = new real[cl];
 //	word_prior = new real*[cl];
 	n_dims = dims;
 	n_clusters = cl;
 //	n_words = nw;
-	for (int i=0; i < cl; i++) {
+	for (int i=0; i < cl; i++) 
+	{
 		means[i] = new real[dims];
 //		word_prior[i] = new real[n_words];
 	}
@@ -40,14 +40,16 @@ ClusterDiscretizer::ClusterDiscretizer(int dims, int cl,
 	n_dims = dims;
 	n_clusters = cl;
 //	n_words = nw;
-	for (int i=0; i < cl; i++) {
+	for (int i=0; i < cl; i++) 
+	{
 		means[i] = new real[dims];
 //		word_prior[i] = new real[n_words];
 	}
 	load(fn);
 }
 
-ClusterDiscretizer::ClusterDiscretizer(const ClusterDiscretizer &dzer) {
+ClusterDiscretizer::ClusterDiscretizer(const ClusterDiscretizer &dzer) 
+{
 	n_dims = dzer.n_dims;
 	n_clusters = dzer.n_clusters;
 //	n_words = dzer.n_words;
@@ -56,7 +58,8 @@ ClusterDiscretizer::ClusterDiscretizer(const ClusterDiscretizer &dzer) {
 //	word_prior = new real*[n_clusters];
 	
 	//for each cluster
-	for (int i=0; i < n_clusters; i++) {
+	for (int i=0; i < n_clusters; i++) 
+	{
 		//copy cluster prior
 		prior[i] = dzer.prior[i];
 		//copy mean
@@ -90,16 +93,20 @@ real ClusterDiscretizer::distanceL2(const real * const u, const struct neuron * 
 ////////////////////////////////////
 
 
-void ClusterDiscretizer::discretize(FstHistory* const fsth, const struct neuron * const layer) const {
+void ClusterDiscretizer::discretize(FstHistory* const fsth, const struct neuron * const layer) const 
+{
 	ClusterFstHistory *p = dynamic_cast<ClusterFstHistory *>(fsth);
-	if (p != NULL) {
+	if (p != NULL) 
+	{
 		int min_cl = 0;
 		real min_dist = 1e100;
 		real dist = 0.0;
-		for (int i = 0; i < getNumClusters(); i++) {
+		for (int i = 0; i < getNumClusters(); i++) 
+		{
 			dist = distanceL2(means[i],layer);
 //			printf("DIST(%i) = %f\n", i, (float) dist);
-			if (dist < min_dist) {
+			if (dist < min_dist) 
+			{
 				min_dist = dist;
 				min_cl = i;
 			}
@@ -121,14 +128,16 @@ void ClusterDiscretizer::undiscretize(struct neuron * const layer, const FstHist
 }
 
 
-bool ClusterDiscretizer::load(fstream &in) {
+bool ClusterDiscretizer::load(fstream &in) 
+{
 	string word;
 	string line;
 	if ( !in )
 	  return false;
 	  
 	int cl = 0;
-	while (getline(in, line)) {
+	while (getline(in, line)) 
+	{
 //		cout << line << endl;
 		istringstream strstr(line);
 		int i = 0;
@@ -136,12 +145,16 @@ bool ClusterDiscretizer::load(fstream &in) {
 		strstr >> word;
 		//if comment skip
 //		if (word == "--") { continue; }
-		if (word[0] == '-' && word[1] == '-') { return (cl >= n_clusters); }
+		if (word[0] == '-' && word[1] == '-') 
+		{ 
+			return (cl >= n_clusters); 
+		}
 		if (word[0] == '#') { continue; }		
 		//read mean
 		prior[cl] = mylog(atof(word.c_str()));
 //		printf("P_prior(c%i) = %f\n", cl, atof(word.c_str()));
-		while (strstr >> word) {
+		while (strstr >> word) 
+		{
 			if (word[0] == '#') { break; }
 			v = atof(word.c_str());
 			means[cl][i] = v;

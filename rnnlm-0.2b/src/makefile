@@ -1,12 +1,12 @@
 #CC = x86_64-linux-g++-4.5
 #CFLAGS = -lm -O2 -funroll-loops -fprefetch-loop-arrays
 
-CC = g++
+CC = g++ -std=c++11
 # CFLAGS = -Wl,--no-as-needed -lm -O2 -Wall -funroll-loops -ffast-math
 CFLAGS = -Wl,--no-as-needed -lm -g -O2 -Wall -funroll-loops -ffast-math
 BIN=../bin
 SRC=src
-OPENFST:=../../openfst-1.3.2/
+OPENFST:=../../openfst-1.6.3
 ifeq ($(USE_BLAS),1)
 BLAS_LIBS = -L/usr/lib -lblas -latlas
 OPT_DEF = -D USE_BLAS

@@ -18,7 +18,8 @@ bool word_id = false;
 
 using namespace std;
 
-void traceHiddenLayer(string fn, CRnnLM &rnnlm) {
+void traceHiddenLayer(string fn, CRnnLM &rnnlm) 
+{
 	int n=0;
     int a, b, i, word, last_word, wordcn;
     FILE *fi, *flog, *lmprob;
@@ -43,39 +44,46 @@ void traceHiddenLayer(string fn, CRnnLM &rnnlm) {
 	vector<real> one_trace;
 	int j;
 	printf("%i\t",n);
-	if (word_id) {
+	if (word_id) 
+    {
 		printf("%i\t",last_word);
 	}
-	for (j = 0; j < rnnlm.getHiddenLayerSize()-1; j++) {
+	for (j = 0; j < rnnlm.getHiddenLayerSize()-1; j++) 
+    {
 		printf("%.6f\t",hid[j].ac);
 	}
 	printf("%.6f\n",hid[j].ac);
 	fprintf(stderr, "%i\n", n);
 	n++;
-    while (1) {
-        
+    while (1) 
+    {
         word=rnnlm.readWordIndex(fi);		//read next word
         rnnlm.computeNet(last_word, word);		//compute probability distribution
         
         //trace
 		vector<real> one_trace;
 		printf("%i\t",n);
-		if (word_id) {
+		if (word_id) 
+        {
 			printf("%i\t",last_word);
 		}
-		for (j = 0; j < rnnlm.getHiddenLayerSize()-1; j++) {
+		for (j = 0; j < rnnlm.getHiddenLayerSize()-1; j++) 
+        {
 			printf("%.6f\t",hid[j].ac);
 		}
 		printf("%.6f\n",hid[j].ac);
-		if (n > 367390 && n < 367410) {
-		fprintf(stderr, "%i\t%i\n", last_word, n);
+		if (n > 367390 && n < 367410) 
+        {
+		    fprintf(stderr, "%i\t%i\n", last_word, n);
 		}
 		n++;
-        if (feof(fi)) break;		//end of file
+        if (feof(fi)) 
+            break;		//end of file
 
         rnnlm.copyHiddenLayerToInput();
         
-        if (last_word!=-1) in[last_word].ac=0;  //delete previous activation
+        if (last_word!=-1) 
+            in[last_word].ac=0;  //delete previous activation
         last_word=word;
     }
     fclose(fi);
@@ -117,7 +125,8 @@ int main(int argc, char **argv)
 	CRnnLM rnnlm;
 	
     
-    if (argc==1) {
+    if (argc==1) 
+    {
     	//printf("Help\n");
 
     	fprintf(stderr,"Converts a recurrent neural network into a finite state transducer in order to integrate long-span information within the decoding process\n\n");
@@ -130,16 +139,18 @@ int main(int argc, char **argv)
     
     //set debug mode
     i=argPos((char *)"-debug", argc, argv);
-    if (i>0) {
-        if (i+1==argc) {
+    if (i>0) 
+    {
+        if (i+1==argc)
+        {
             fprintf(stderr,"ERROR: debug mode not specified!\n");
             return 0;
         }
 
         debug_mode=atoi(argv[i+1]);
 
-	if (debug_mode>0)
-        fprintf(stderr,"debug mode: %d\n", debug_mode);
+        if (debug_mode>0)
+            fprintf(stderr,"debug mode: %d\n", debug_mode);
     }
     
     
@@ -155,8 +166,10 @@ int main(int argc, char **argv)
     
     //search for rnnlm file
     i=argPos((char *)"-rnnlm", argc, argv);
-    if (i>0) {
-        if (i+1==argc) {
+    if (i>0) 
+    {
+        if (i+1==argc) 
+        {
             fprintf(stderr,"ERROR: model file not specified!\n");
             return 0;
         }
@@ -168,7 +181,8 @@ int main(int argc, char **argv)
         fprintf(stderr,"rnnlm file: %s\n", rnnlm_file);
 
         f=fopen(rnnlm_file, "rb");
-        if (f!=NULL) {
+        if (f!=NULL) 
+        {
             rnnlm_exist=1;
         }
         rnnlm_file_set=1;

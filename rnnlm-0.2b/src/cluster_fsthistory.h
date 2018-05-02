@@ -17,17 +17,20 @@
  
 typedef short cluster_id;
  
-class ClusterFstHistory : public FstHistory {
+class ClusterFstHistory : public FstHistory 
+{
 	protected:
 	cluster_id discretized;
 	
 	public:
 	
-	ClusterFstHistory() : FstHistory() {
+	ClusterFstHistory() : FstHistory() 
+	{
 		discretized = 0;
 	}
 
-	ClusterFstHistory(const ClusterFstHistory &fsth) : FstHistory(fsth) {
+	ClusterFstHistory(const ClusterFstHistory &fsth) : FstHistory(fsth) 
+	{
 		discretized = fsth.getDiscretized();
 	}
 	

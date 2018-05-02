@@ -68,12 +68,14 @@ float** file_read(int   isBinaryFile,  /* flag: 0 or 1 */
 
         close(infile);
     }
-    else {  /* input file is in ASCII format -------------------------------*/
+    else 
+    {  /* input file is in ASCII format -------------------------------*/
         FILE *infile;
         char *line, *ret;
         int   lineLen;
 
-        if ((infile = fopen(filename, "r")) == NULL) {
+        if ((infile = fopen(filename, "r")) == NULL) 
+        {
             fprintf(stderr, "Error: no such file (%s)\n", filename);
             return NULL;
         }
@@ -84,9 +86,11 @@ float** file_read(int   isBinaryFile,  /* flag: 0 or 1 */
         assert(line != NULL);
 
         (*numObjs) = 0;
-        while (fgets(line, lineLen, infile) != NULL) {
+        while (fgets(line, lineLen, infile) != NULL) 
+        {
             /* check each line to find the max line length */
-            while (strlen(line) == lineLen-1) {
+            while (strlen(line) == lineLen-1) 
+            {
                 /* this line read is not complete */
                 len = strlen(line);
                 fseek(infile, -len, SEEK_CUR);
@@ -104,20 +108,25 @@ float** file_read(int   isBinaryFile,  /* flag: 0 or 1 */
                 (*numObjs)++;
         }
         rewind(infile);
-        if (_debug) printf("lineLen = %d\n",lineLen);
+        if (_debug) 
+            printf("lineLen = %d\n",lineLen);
 
         /* find the no. objects of each object */
         (*numCoords) = 0;
-        while (fgets(line, lineLen, infile) != NULL) {
-            if (strtok(line, " \t\n") != 0) {
+        while (fgets(line, lineLen, infile) != NULL) 
+        {
+            if (strtok(line, " \t\n") != 0) 
+            {
                 /* ignore the id (first coordiinate): numCoords = 1; */
-                while (strtok(NULL, " ,\t\n") != NULL) (*numCoords)++;
+                while (strtok(NULL, " ,\t\n") != NULL) 
+                    (*numCoords)++;
                 break; /* this makes read from 1st object */
             }
         }
         rewind(infile);
-                    printf("File %s numObjs   = %d\n",filename,*numObjs);
-        if (_debug) {
+        printf("File %s numObjs   = %d\n",filename,*numObjs);
+        if (_debug) 
+        {
             printf("File %s numObjs   = %d\n",filename,*numObjs);
             printf("File %s numCoords = %d\n",filename,*numCoords);
         }
@@ -133,8 +142,10 @@ float** file_read(int   isBinaryFile,  /* flag: 0 or 1 */
 
         i = 0;
         /* read all objects */
-        while (fgets(line, lineLen, infile) != NULL) {
-            if (strtok(line, " \t\n") == NULL) continue;
+        while (fgets(line, lineLen, infile) != NULL) 
+        {
+            if (strtok(line, " \t\n") == NULL) 
+                continue;
             for (j=0; j<(*numCoords); j++)
                 objects[i][j] = atof(strtok(NULL, " ,\t\n"));
             i++;
@@ -161,10 +172,10 @@ int file_write(char      *filename,     /* input file name */
 
     /* output: the coordinates of the cluster centres ----------------------*/
     sprintf(outFileName, "%s.cluster_centres", filename);
-    printf("Writing coordinates of K=%d cluster centers to file \"%s\"\n",
-           numClusters, outFileName);
+    printf("Writing coordinates of K=%d cluster centers to file \"%s\"\n", numClusters, outFileName);
     fptr = fopen(outFileName, "w");
-    for (i=0; i<numClusters; i++) {
+    for (i=0; i<numClusters; i++) 
+    {
         fprintf(fptr, "%d ", i);
         for (j=0; j<numCoords; j++)
             fprintf(fptr, "%f ", clusters[i][j]);
@@ -174,8 +185,7 @@ int file_write(char      *filename,     /* input file name */
 
     /* output: the closest cluster centre to each of the data points --------*/
     sprintf(outFileName, "%s.membership", filename);
-    printf("Writing membership of N=%d data objects to file \"%s\"\n",
-           numObjs, outFileName);
+    printf("Writing membership of N=%d data objects to file \"%s\"\n", numObjs, outFileName);
     fptr = fopen(outFileName, "w");
     for (i=0; i<numObjs; i++)
         fprintf(fptr, "%d %d\n", i, membership[i]);

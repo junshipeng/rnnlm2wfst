@@ -2,7 +2,7 @@
  * Associate a RNN state to a cluster ID and, vice-versa, restore a RNN
  * by associating each cluster ID with its mean.
  *
- *
+ *rnn2wfst.4.kmeans的存储格式
  * Format for defining a cluster in a file
  * <prior1> <dim11> <dim12> ... <dim1N>
  * <word_prior1>
@@ -34,7 +34,8 @@
  
 using namespace std;
  
-class ClusterDiscretizer : public Discretizer {
+class ClusterDiscretizer : public Discretizer 
+{
 
 	protected:
 	real **means;

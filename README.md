@@ -1,6 +1,8 @@
 rnnlm2wfst
 ==========
 
+https://github.com/glecorve/rnnlm2wfst
+
 Conversion of recurrent neural network language models to weighted finite state transducers
 This directory contains all the code to run the conversion
 
@@ -19,10 +21,13 @@ Configuration & compilation
 
 Same as install.sh.
 
+### git clone https://github.com/glecorve/rnnlm2wfst.git
+
 ### OpenFst
-	cd openfst-1.2.0
+	将openfst 1.6.3版本下载，并解压
+	cd openfst-1.6.3
 	./configure --prefix=`pwd`
-	make
+	make install
 	cd ..
 	
 ### K-means
@@ -31,6 +36,15 @@ Same as install.sh.
 	cd ..
 	
 ### RNNLM
+	修改src/makefile：
+	1）将CC = g++ 修改为 CC = g++ -std=c++11
+	2）将OPENFST:=../../openfst-1.3.2/ 修改为OPENFST:=../../openfst-1.6.3
+	如果出现error while loading shared libraries: libXXX.so.X: cannot open shared object file: No such file错误的话，需要修改下列文件
+	1）cd /etc/ld.so.conf.d/
+	2）vi fst.conf
+	3）添加之前编译好的openfst lib路径，比如/home/pjs/rnn2wfst/rnnlm2wfst/openfst-1.6.3/lib
+	4）ldconfig
+	
 	cd rnnlm-0.2b
 	# Do not use USE_BLAS=1 if BLAS is not installed
 	make USE_BLAS=1

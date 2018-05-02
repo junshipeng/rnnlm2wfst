@@ -67,7 +67,7 @@ int main(int argc, char **argv)
     
     char rnnlm_file[MAX_STRING];
     char fst_file[MAX_STRING];
-    char disc_map_file[MAX_STRING];
+    char disc_ma p_file[MAX_STRING];
     
     FILE *f;
     
@@ -247,22 +247,27 @@ int main(int argc, char **argv)
 	FstBuilder *builder;
 	   
 	//Load discretizer
-	if (neuron || neuron_flat) {
+	if (neuron || neuron_flat) 
+    {
 		NeuronDiscretizer *d = new NeuronDiscretizer(rnnlm.getHiddenLayerSize(), n_bins, string(disc_map_file));
 		
-		if (neuron_flat) {
+		if (neuron_flat) 
+        {
 			builder = (FlatBOFstBuilder *) new FlatBOFstBuilder(d, threshold, bo_len);
 		}
-		else {
+		else 
+        {
 			builder = (NeuronFstBuilder *) new NeuronFstBuilder(d, threshold, bo_len);
 		}
 	}
-	else if (cluster) {
+	else if (cluster) 
+    {
 //		ClusterDiscretizer *d = new ClusterDiscretizer(rnnlm.getHiddenLayerSize(), n_bins, rnnlm.getVocabSize(), string(disc_map_file));
 		ClusterDiscretizer *d = new ClusterDiscretizer(rnnlm.getHiddenLayerSize(), n_bins, string(disc_map_file));
 		builder = (ClusterFstBuilder *) new ClusterFstBuilder(d);
 	}
-	else if (h_cluster) {
+	else if (h_cluster) 
+    {
 //		HierarchicalClusterDiscretizer *d = new HierarchicalClusterDiscretizer(rnnlm.getHiddenLayerSize(), rnnlm.getVocabSize(), string(disc_map_file));	
 		HierarchicalClusterDiscretizer *d = new HierarchicalClusterDiscretizer(rnnlm.getHiddenLayerSize(), string(disc_map_file));	
 		builder = (HierarchicalClusterFstBuilder *) new HierarchicalClusterFstBuilder(d, threshold, bo_len);

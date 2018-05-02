@@ -24,7 +24,9 @@ int argPos(char *str, int argc, char **argv)
 {
     int a;
     
-    for (a=1; a<argc; a++) if (!strcmp(str, argv[a])) return a;
+    for (a=1; a<argc; a++) 
+        if (!strcmp(str, argv[a])) 
+            return a;
     
     return -1;
 }
@@ -80,7 +82,8 @@ int main(int argc, char **argv)
     
     FILE *f;
     
-    if (argc==1) {
+    if (argc==1) 
+    {
     	//printf("Help\n");
 
     	printf("Recurrent neural network based language modeling toolkit v 0.3d\n\n");
@@ -96,14 +99,14 @@ int main(int argc, char **argv)
         printf("\t-class <int>\n");
         printf("\t\tWill use specified amount of classes to decompose vocabulary; default is 100\n");
 	
-	printf("\t-old-classes\n");
-	printf("\t\tThis will use old algorithm to compute classes, which results in slower models but can be a bit more precise\n");
+        printf("\t-old-classes\n");
+        printf("\t\tThis will use old algorithm to compute classes, which results in slower models but can be a bit more precise\n");
 
     	printf("\t-rnnlm <file>\n");
         printf("\t\tUse <file> to store rnnlm model\n");
 
-	printf("\t-binary\n");
-	printf("\t\tRnnlm model will be saved in binary format (default is plain text)\n");
+        printf("\t-binary\n");
+        printf("\t\tRnnlm model will be saved in binary format (default is plain text)\n");
 
     	printf("\t-valid <file>\n");
     	printf("\t\tUse <file> as validation data\n");
@@ -114,17 +117,17 @@ int main(int argc, char **argv)
     	printf("\t-beta <float>\n");
     	printf("\t\tSet L2 regularization parameter; default is 1e-7\n");
 
-	printf("\t-hidden <int>\n");
+	    printf("\t-hidden <int>\n");
     	printf("\t\tSet size of hidden layer; default is 30\n");
 
-	printf("\t-compression <int>\n");
-	printf("\t\tSet size of compression layer; default is 0 (not used)\n");
+        printf("\t-compression <int>\n");
+        printf("\t\tSet size of compression layer; default is 0 (not used)\n");
     	
     	printf("\t-direct <int>\n");
     	printf("\t\tSets size of the hash for direct connections with n-gram features in millions; default is 0\n");
 	
-	printf("\t-direct-order <int>\n");
-	printf("\t\tSets the n-gram order for direct connections (max %d); default is 3\n", MAX_NGRAM_ORDER);
+        printf("\t-direct-order <int>\n");
+        printf("\t\tSets the n-gram order for direct connections (max %d); default is 3\n", MAX_NGRAM_ORDER);
     	
     	printf("\t-bptt <int>\n");
     	printf("\t\tSet amount of steps to propagate error back in time; default is 0 (equal to simple RNN)\n");
@@ -141,8 +144,8 @@ int main(int argc, char **argv)
     	printf("\t-min-improvement <float>\n");
     	printf("\t\tSet minimal relative entropy improvement for training convergence; default is 1.003\n");
 
-	printf("\t-gradient-cutoff <float>\n");
-	printf("\t\tSet maximal absolute gradient value (to improve training stability, use lower values; default is 15, to turn off use 0)\n");
+        printf("\t-gradient-cutoff <float>\n");
+        printf("\t\tSet maximal absolute gradient value (to improve training stability, use lower values; default is 15, to turn off use 0)\n");
 
     	//
 
@@ -170,8 +173,8 @@ int main(int argc, char **argv)
     	printf("\t-gen <int>\n");
     	printf("\t\tGenerate specified amount of words given distribution from current model\n");
 	
-	printf("\t-independent\n");
-	printf("\t\tWill erase history at end of each sentence (if used for training, this switch should be used also for testing & rescoring)\n");
+        printf("\t-independent\n");
+        printf("\t\tWill erase history at end of each sentence (if used for training, this switch should be used also for testing & rescoring)\n");
 
     	printf("\nExamples:\n");
     	printf("rnnlm -train train -rnnlm model -valid valid -hidden 50\n");
@@ -184,34 +187,39 @@ int main(int argc, char **argv)
     
     //set debug mode
     i=argPos((char *)"-debug", argc, argv);
-    if (i>0) {
-        if (i+1==argc) {
+    if (i>0) 
+    {
+        if (i+1==argc) 
+        {
             printf("ERROR: debug mode not specified!\n");
             return 0;
         }
 
         debug_mode=atoi(argv[i+1]);
 
-	if (debug_mode>0)
-        printf("debug mode: %d\n", debug_mode);
+        if (debug_mode>0)
+            printf("debug mode: %d\n", debug_mode);
     }
 
     
     //search for train file
     i=argPos((char *)"-train", argc, argv);
-    if (i>0) {
-        if (i+1==argc) {
+    if (i>0) 
+    {
+        if (i+1==argc) 
+        {
             printf("ERROR: training data file not specified!\n");
             return 0;
         }
 
         strcpy(train_file, argv[i+1]);
 
-	if (debug_mode>0)
-        printf("train file: %s\n", train_file);
+        if (debug_mode>0)
+            printf("train file: %s\n", train_file);
 
         f=fopen(train_file, "rb");
-        if (f==NULL) {
+        if (f==NULL) 
+        {
             printf("ERROR: training data file not found!\n");
             return 0;
         }
@@ -224,8 +232,10 @@ int main(int argc, char **argv)
     
     //search for discretization map file
     i=argPos((char *)"-discretize", argc, argv);
-    if (i>0) {
-        if (i+1==argc) {
+    if (i>0) 
+    {
+        if (i+1==argc) 
+        {
             printf("ERROR: no discretization map file specified!\n");
             return 0;
         }
@@ -242,7 +252,8 @@ int main(int argc, char **argv)
     
     //set one-iter
     i=argPos((char *)"-one-iter", argc, argv);
-    if (i>0) {
+    if (i>0) 
+    {
         one_iter=1;
 
         if (debug_mode>0)
@@ -252,8 +263,10 @@ int main(int argc, char **argv)
     
     //search for validation file
     i=argPos((char *)"-valid", argc, argv);
-    if (i>0) {
-        if (i+1==argc) {
+    if (i>0) 
+    {
+        if (i+1==argc) 
+        {
             printf("ERROR: validation data file not specified!\n");
             return 0;
         }
@@ -264,7 +277,8 @@ int main(int argc, char **argv)
         printf("valid file: %s\n", valid_file);
 
         f=fopen(valid_file, "rb");
-        if (f==NULL) {
+        if (f==NULL) 
+        {
             printf("ERROR: validation data file not found!\n");
             return 0;
         }
@@ -272,26 +286,31 @@ int main(int argc, char **argv)
         valid_data_set=1;
     }
     
-    if (train_mode && !valid_data_set) {
-	if (one_iter==0) {
-	    printf("ERROR: validation data file must be specified for training!\n");
+    if (train_mode && !valid_data_set) 
+    {
+        if (one_iter==0) 
+        {
+	        printf("ERROR: validation data file must be specified for training!\n");
     	    return 0;
     	}
     }
     
     //set nbest rescoring mode
     i=argPos((char *)"-nbest", argc, argv);
-    if (i>0) {
-	nbest=1;
+    if (i>0) 
+    {
+	    nbest=1;
         if (debug_mode>0)
-        printf("Processing test data as list of nbests\n");
+            printf("Processing test data as list of nbests\n");
     }
 
     
     //search for test file
     i=argPos((char *)"-test", argc, argv);
-    if (i>0) {
-        if (i+1==argc) {
+    if (i>0) 
+    {
+        if (i+1==argc) 
+        {
             printf("ERROR: test data file not specified!\n");
             return 0;
         }
@@ -302,12 +321,16 @@ int main(int argc, char **argv)
         printf("test file: %s\n", test_file);
 
 	
-        if (nbest && (!strcmp(test_file, "-"))) ; else {
-	  f=fopen(test_file, "rb");
-	  if (f==NULL) {
-	    printf("ERROR: test data file not found!\n");
-	    return 0;
-	  }
+        if (nbest && (!strcmp(test_file, "-"))) 
+            ; 
+        else 
+        {
+            f=fopen(test_file, "rb");
+            if (f==NULL) 
+            {
+                printf("ERROR: test data file not found!\n");
+                return 0;
+            }
         }
         
         test_data_set=1;
@@ -316,34 +339,37 @@ int main(int argc, char **argv)
     
     //set class size parameter
     i=argPos((char *)"-class", argc, argv);
-    if (i>0) {
-        if (i+1==argc) {
+    if (i>0) 
+    {
+        if (i+1==argc) 
+        {
             printf("ERROR: amount of classes not specified!\n");
             return 0;
         }
 
         class_size=atoi(argv[i+1]);
 
-	if (debug_mode>0)
-        printf("class size: %d\n", class_size);
+        if (debug_mode>0)
+            printf("class size: %d\n", class_size);
     }
 
     
      //set old class
-      i=argPos((char *)"-old-classes", argc, argv);
-      if (i>0) {
-	old_classes=1;
-	
-	if (debug_mode>0)
-	  printf("Old algorithm for computing classes will be used\n");
-      }
-    
-    
+    i=argPos((char *)"-old-classes", argc, argv);
+    if (i>0) 
+    {
+        old_classes=1;
+        
+        if (debug_mode>0)
+        printf("Old algorithm for computing classes will be used\n");
+    }
     
     //set lambda
     i=argPos((char *)"-lambda", argc, argv);
-    if (i>0) {
-        if (i+1==argc) {
+    if (i>0) 
+    {
+        if (i+1==argc) 
+        {
             printf("ERROR: lambda not specified!\n");
             return 0;
         }
@@ -351,23 +377,25 @@ int main(int argc, char **argv)
         lambda=atof(argv[i+1]);
 
         if (debug_mode>0)
-        printf("Lambda (interpolation coefficient between rnnlm and other lm): %f\n", lambda);
+            printf("Lambda (interpolation coefficient between rnnlm and other lm): %f\n", lambda);
     }
     
     
     //set gradient cutoff
-      i=argPos((char *)"-gradient-cutoff", argc, argv);
-      if (i>0) {
-	if (i+1==argc) {
-	  printf("ERROR: gradient cutoff not specified!\n");
-	  return 0;
-	}
+    i=argPos((char *)"-gradient-cutoff", argc, argv);
+    if (i>0) 
+    {
+        if (i+1==argc) 
+        {
+            printf("ERROR: gradient cutoff not specified!\n");
+            return 0;
+        }
 
-	gradient_cutoff=atof(argv[i+1]);
+        gradient_cutoff=atof(argv[i+1]);
 
-	if (debug_mode>0)
-	  printf("Gradient cutoff: %f\n", gradient_cutoff);
-      }
+        if (debug_mode>0)
+            printf("Gradient cutoff: %f\n", gradient_cutoff);
+    }
     
     
     //set dynamic
@@ -659,32 +687,34 @@ int main(int argc, char **argv)
     
     srand(1);
 
-    if (train_mode) {
+    if (train_mode) 
+    {
     	CRnnLM model1;
 
     	model1.setTrainFile(train_file);
     	model1.setRnnLMFile(rnnlm_file);
-	model1.setFileType(fileformat);
+	    model1.setFileType(fileformat);
     	
     	model1.setOneIter(one_iter);
-    	if (one_iter==0) model1.setValidFile(valid_file);
+    	if (one_iter==0) 
+            model1.setValidFile(valid_file);
 	
-	model1.setClassSize(class_size);
-	model1.setOldClasses(old_classes);
+	    model1.setClassSize(class_size);
+	    model1.setOldClasses(old_classes);
     	model1.setLearningRate(starting_alpha);
-	model1.setGradientCutoff(gradient_cutoff);
+	    model1.setGradientCutoff(gradient_cutoff);
     	model1.setRegularization(regularization);
     	model1.setMinImprovement(min_improvement);
     	model1.setHiddenLayerSize(hidden_size);
-	model1.setCompressionLayerSize(compression_size);
+	    model1.setCompressionLayerSize(compression_size);
     	model1.setDirectSize(direct);
-	model1.setDirectOrder(direct_order);
+	    model1.setDirectOrder(direct_order);
     	model1.setBPTT(bptt);
     	model1.setBPTTBlock(bptt_block);
     	model1.setRandSeed(rand_seed);
     	model1.setDebugMode(debug_mode);
     	model1.setAntiKasparek(anti_k);
-	model1.setIndependent(independent);
+	    model1.setIndependent(independent);
     	
     	model1.alpha_set=alpha_set;
     	model1.train_file_set=train_file_set;
@@ -692,7 +722,8 @@ int main(int argc, char **argv)
     	model1.trainNet();
     }
     
-    if (test_data_set && rnnlm_file_set) {
+    if (test_data_set && rnnlm_file_set) 
+    {
         CRnnLM model1;
         
 
@@ -707,26 +738,30 @@ int main(int argc, char **argv)
         if (use_lmprob) model1.setLMProbFile(lmprob_file);
         model1.setDebugMode(debug_mode);
 
-        if (disc_map_file_set == 1) {
+        if (disc_map_file_set == 1) 
+        {
         	model1.restoreNet();
 //        	d = new HierarchicalClusterDiscretizer(model1.getHiddenLayerSize(), model1.getVocabSize(), string(disc_map_file));
         	d = new HierarchicalClusterDiscretizer(model1.getHiddenLayerSize(), string(disc_map_file));
         	model1.setDiscretizer(d);
         }
 
-	if (nbest==0) model1.testNet();
-	else model1.testNbest();
+        if (nbest==0) 
+            model1.testNet();
+        else 
+            model1.testNbest();
     }
     
-    if (gen>0) {
-	CRnnLM model1;
-	
-	model1.setRnnLMFile(rnnlm_file);
-	model1.setDebugMode(debug_mode);
-	model1.setRandSeed(rand_seed);
-	model1.setGen(gen);
-    
-	model1.testGen();
+    if (gen>0) 
+    {
+        CRnnLM model1;
+        
+        model1.setRnnLMFile(rnnlm_file);
+        model1.setDebugMode(debug_mode);
+        model1.setRandSeed(rand_seed);
+        model1.setGen(gen);
+        
+        model1.testGen();
     }
     
     

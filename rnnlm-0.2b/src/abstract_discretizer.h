@@ -32,7 +32,8 @@ class Discretizer {
 	Discretizer();
 	Discretizer(const Discretizer &dzer);
 	
-	virtual int getNumDims() const {
+	virtual int getNumDims() const 
+	{
 		return n_dims;
 	}
 	

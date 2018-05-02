@@ -86,7 +86,8 @@ class HierarchicalClusterFstBuilder : public FstBuilder {
 		pruning_threshold=0.01;
 	}
 	
-	HierarchicalClusterFstBuilder(HierarchicalClusterDiscretizer* d, real t, int bol) : FstBuilder(d) {
+	HierarchicalClusterFstBuilder(HierarchicalClusterDiscretizer* d, real t, int bol) : FstBuilder(d) 
+	{
 		pruning_threshold=t;
 		max_backoff_path=bol;
 	}

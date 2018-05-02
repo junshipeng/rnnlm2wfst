@@ -108,9 +108,11 @@ int main(int argc, char **argv) {
 
     /* read data points from file ------------------------------------------*/
     objects = file_read(isBinaryFile, filename, &numObjs, &numCoords);
-    if (objects == NULL) exit(1);
+    if (objects == NULL) 
+        exit(1);
 
-    if (is_output_timing) {
+    if (is_output_timing) 
+    {
         timing            = omp_get_wtime();
         io_timing         = timing - io_timing;
         clustering_timing = timing;
@@ -127,7 +129,8 @@ int main(int argc, char **argv) {
     free(objects[0]);
     free(objects);
 
-    if (is_output_timing) {
+    if (is_output_timing) 
+    {
         timing            = omp_get_wtime();
         clustering_timing = timing - clustering_timing;
     }       
@@ -140,7 +143,8 @@ int main(int argc, char **argv) {
     free(clusters);
 
     /*---- output performance numbers ---------------------------------------*/
-    if (is_output_timing) {
+    if (is_output_timing) 
+    {
         io_timing += omp_get_wtime() - timing;
 
         printf("\nPerforming **** Regular Kmeans  (OpenMP) ----");

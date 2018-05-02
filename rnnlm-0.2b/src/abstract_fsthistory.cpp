@@ -15,12 +15,15 @@ using namespace std;
 /**
  * Discretize continuous inputs coming from the recurrent hidden layer
  */
-void FstHistory::setFstHistory(CRnnLM & rnnlm, const Discretizer &dzer) {
+void FstHistory::setFstHistory(CRnnLM & rnnlm, const Discretizer &dzer) 
+{
 	struct neuron* layer = rnnlm.getInputLayer();
 	
 	//browse all word indices
-	for (int i=0; i < rnnlm.getVocabSize(); i++) {
-		if (layer[i].ac == 1.0) {
+	for (int i=0; i < rnnlm.getVocabSize(); i++) 
+	{
+		if (layer[i].ac == 1.0) 
+		{
 			setLastWord(i);	
 		}
 	}
@@ -35,14 +38,17 @@ void FstHistory::setFstHistory(CRnnLM & rnnlm, const Discretizer &dzer) {
 /**
  * Overwrite the current input layer using the current history
  */
-void FstHistory::loadAsInput(CRnnLM & rnnlm, const Discretizer &dzer) const {
+void FstHistory::loadAsInput(CRnnLM & rnnlm, const Discretizer &dzer) const 
+{
 	struct neuron* in = rnnlm.getInputLayer();
 	
-	for (int i=0; i < rnnlm.getVocabSize(); i++) {
+	for (int i=0; i < rnnlm.getVocabSize(); i++) 
+	{
 		in[i].ac = 0.0;
 	}
 	
-	if (getLastWord() != -1) {
+	if (getLastWord() != -1) 
+	{
 		in[getLastWord()].ac = 1.0;
 	}
 
